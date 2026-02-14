@@ -176,17 +176,6 @@ def sidebar():
         
         st.markdown("---")
         
-        # Configuración
-        with st.expander("⚙️ Configuración"):
-            tema = st.selectbox(
-                "Tema",
-                ["Claro", "Oscuro"],
-                index=0 if st.session_state.tema == 'claro' else 1
-            )
-            st.session_state.tema = tema.lower()
-            
-            st.markdown("**Más opciones próximamente...**")
-        
         # Glosario
         with st.expander("📖 Glosario"):
             st.markdown("""
@@ -301,7 +290,6 @@ def procesar_archivo(ruta_archivo):
     
     st.session_state.procesado = True
     st.success("✅ Análisis completado exitosamente!")
-    st.balloons()
 
 def tab_overview():
     """Tab de resumen ejecutivo"""
