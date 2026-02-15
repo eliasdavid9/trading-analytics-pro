@@ -660,7 +660,7 @@ def tab_overview():
         ['rango_diario', 'cambio_pct', 'direccion', 'volatilidad']
     ]
     
-   st.dataframe(
+    st.dataframe(
       formatear_dataframe(top5).format({
         'Rango Diario': '{:.2f}',
         'Cambio Pct': '{:+.2f}%',
@@ -698,7 +698,7 @@ def tab_clasificacion():
         height=400
     )
     
-     # Análisis por día de semana
+    # Análisis por día de semana
     st.markdown("### 📊 Análisis por Día de Semana")
     
     analisis_semana = classifier.analizar_por_dia_semana()
