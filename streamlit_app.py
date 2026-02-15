@@ -742,29 +742,29 @@ def tab_sesiones():
     # Formatear decimales manualmente
     formato_dict = {}
     for col in dist.columns:
-    if dist[col].dtype in ['float64', 'float32']:
-        formato_dict[str(col).replace('_', ' ').title()] = '{:.2f}'
-        
+        if dist[col].dtype in ['float64', 'float32']:  # ← 8 ESPACIOS (dentro del for)
+            formato_dict[str(col).replace('_', ' ').title()] = '{:.2f}'  # ← 12 ESPACIOS (dentro del if)
+    
     st.dataframe(
-    formatear_dataframe(dist).format(formato_dict),
-    use_container_width=True
+        formatear_dataframe(dist).format(formato_dict),
+        use_container_width=True
     )
     
     # Sesiones por tipo de día
     st.markdown("### 🎯 Sesiones por Tipo de Día")
     
     por_tipo = analytics.analizar_sesiones_por_tipo_dia()
-    if por_tipo is not None:
-    # Formatear decimales manualmente
-    formato_dict = {}
-    for col in por_tipo.columns:
-        if por_tipo[col].dtype in ['float64', 'float32']:
-            formato_dict[str(col).replace('_', ' ').title()] = '{:.2f}'
-    
-    st.dataframe(
-        formatear_dataframe(por_tipo).format(formato_dict),
-        use_container_width=True
-    )
+    if por_tipo is not None:  # ← 4 ESPACIOS
+        # Formatear decimales manualmente  # ← 8 ESPACIOS (dentro del if)
+        formato_dict = {}
+        for col in por_tipo.columns:  # ← 8 ESPACIOS
+            if por_tipo[col].dtype in ['float64', 'float32']:  # ← 12 ESPACIOS (dentro del for)
+                formato_dict[str(col).replace('_', ' ').title()] = '{:.2f}'  # ← 16 ESPACIOS (dentro del if anidado)
+        
+        st.dataframe(
+            formatear_dataframe(por_tipo).format(formato_dict),
+            use_container_width=True
+        )
     
     # Correlaciones
     st.markdown("### 🔗 Correlaciones entre Sesiones")
