@@ -739,14 +739,13 @@ def tab_sesiones():
     
     dist = analytics.analizar_distribucion_sesiones()
     
-    # Formatear decimales manualmente
-    formato_dict = {}
-    for col in dist.columns:
-        if dist[col].dtype in ['float64', 'float32']:  # ← 8 ESPACIOS (dentro del for)
-            formato_dict[str(col).replace('_', ' ').title()] = '{:.2f}'  # ← 12 ESPACIOS (dentro del if)
+    # Aplanar columnas MultiIndex si es necesario
+    if isinstance(dist.columns, pd.MultiIndex):
+        dist.columns = [' '.join(map(str, col)).strip().replace('_', ' ').title() for col in dist.columns]
     
+    # Formatear todos los números a 2 decimales
     st.dataframe(
-        formatear_dataframe(dist).format(formato_dict),
+        formatear_dataframe(dist).format(precision=2),
         use_container_width=True
     )
     
