@@ -810,12 +810,16 @@ def tab_comparacion():
     
     # Upload de segundo archivo
     st.markdown("### 📁 Cargar Segundo Contrato")
+
+    col1, col2 = st.columns([2, 3])
     
+    with col1:
     uploaded_file_2 = st.file_uploader(
-        "Sube el segundo archivo .txt para comparar",
+        "Segundo contrato",
         type=['txt'],
         key='file_2',
-        help="Archivo con datos OHLCV de 1 minuto del segundo contrato"
+        help="Archivo del segundo contrato",
+        label_visibility="collapsed"
     )
     
     if uploaded_file_2 is not None and st.session_state.procesado:
