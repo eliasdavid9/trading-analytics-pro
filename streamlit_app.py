@@ -30,18 +30,28 @@ def formatear_dataframe(df):
     """Formatea nombres de columnas y centra datos"""
     df_display = df.copy()
     
-    # Renombrar columnas: quitar _ y capitalizar (convertir a string primero)
-    df_display.columns = [
-        str(col).replace('_', ' ').title() 
-        for col in df_display.columns
-    ]
+    # Si las columnas son MultiIndex (tuplas), aplanarlas
+    if isinstance(df_display.columns, pd.MultiIndex):
+        df_display.columns = [
+            ' '.join(str(col).replace('_', ' ').title() for col in cols if col != '')
+            for cols in df_display.columns
+        ]
+    else:
+        # Renombrar columnas normales: quitar _ y capitalizar
+        df_display.columns = [
+            str(col).replace('_', ' ').title() 
+            for col in df_display.columns
+        ]
     
-    # Aplicar estilo: centrar todo
-    return df_display.style.set_properties(**{
+    # Aplicar estilo: centrar todo (contenido Y headers)
+    styled = df_display.style.set_properties(**{
         'text-align': 'center'
     }).set_table_styles([
-        {'selector': 'th', 'props': [('text-align', 'center')]}
+        {'selector': 'th', 'props': [('text-align', 'center')]},
+        {'selector': 'td', 'props': [('text-align', 'center')]}
     ])
+    
+    return styled
     
 # CSS personalizado
 def load_css():
@@ -728,14 +738,24 @@ def tab_sesiones():
     st.markdown("### 📊 Distribución de Rangos por Sesión")
     
     dist = analytics.analizar_distribucion_sesiones()
-    st.dataframe(formatear_dataframe(dist), use_container_width=True)
+st.dataframe(
+    formatear_dataframe(dist).format({
+        col: '{:.2f}' for col in dist.columns if dist[col].dtype in ['float64', 'float32']
+    }),
+    use_container_width=True
+)
     
     # Sesiones por tipo de día
     st.markdown("### 🎯 Sesiones por Tipo de Día")
     
     por_tipo = analytics.analizar_sesiones_por_tipo_dia()
-    if por_tipo is not None:
-        st.dataframe(formatear_dataframe(por_tipo), use_container_width=True)
+if por_tipo is not None:
+    st.dataframe(
+        formatear_dataframe(por_tipo).format({
+            col: '{:.2f}' for col in por_tipo.columns if por_tipo[col].dtype in ['float64', 'float32']
+        }),
+        use_container_width=True
+    )
     
     # Correlaciones
     st.markdown("### 🔗 Correlaciones entre Sesiones")
