@@ -738,24 +738,24 @@ def tab_sesiones():
     st.markdown("### 📊 Distribución de Rangos por Sesión")
     
     dist = analytics.analizar_distribucion_sesiones()
-st.dataframe(
-    formatear_dataframe(dist).format({
-        col: '{:.2f}' for col in dist.columns if dist[col].dtype in ['float64', 'float32']
-    }),
-    use_container_width=True
-)
+    st.dataframe(  # ← 4 ESPACIOS
+        formatear_dataframe(dist).format({
+            col: '{:.2f}' for col in dist.columns if dist[col].dtype in ['float64', 'float32']
+        }),
+        use_container_width=True
+    )
     
     # Sesiones por tipo de día
     st.markdown("### 🎯 Sesiones por Tipo de Día")
     
     por_tipo = analytics.analizar_sesiones_por_tipo_dia()
-if por_tipo is not None:
-    st.dataframe(
-        formatear_dataframe(por_tipo).format({
-            col: '{:.2f}' for col in por_tipo.columns if por_tipo[col].dtype in ['float64', 'float32']
-        }),
-        use_container_width=True
-    )
+    if por_tipo is not None:  # ← 4 ESPACIOS
+        st.dataframe(  # ← 8 ESPACIOS (dentro del if)
+            formatear_dataframe(por_tipo).format({
+                col: '{:.2f}' for col in por_tipo.columns if por_tipo[col].dtype in ['float64', 'float32']
+            }),
+            use_container_width=True
+        )
     
     # Correlaciones
     st.markdown("### 🔗 Correlaciones entre Sesiones")
