@@ -811,18 +811,19 @@ def tab_comparacion():
     # Upload de segundo archivo
     st.markdown("### 📁 Cargar Segundo Contrato")
 
-    col1, col2 = st.columns([1, 2]) 
+col1, col2 = st.columns([1, 2])
 
+with col1:
     uploaded_file_2 = st.file_uploader(
         "Segundo contrato",
         type=['txt'],
         key='file_2',
         help="Archivo del segundo contrato"
     )
-    
-    if uploaded_file_2 is not None and st.session_state.procesado:
-        if st.button("🔀 Comparar Contratos", type="primary", use_container_width=True):
-            
+
+if uploaded_file_2 is not None and st.session_state.procesado:
+    if st.button("🔀 Comparar Contratos", type="primary", use_container_width=True):
+        
             # Guardar archivo temporalmente
             import tempfile
             with tempfile.NamedTemporaryFile(delete=False, suffix='.txt') as tmp_file:
