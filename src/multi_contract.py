@@ -20,6 +20,12 @@ except ImportError:
 sys.path.append(str(Path(__file__).parent.parent))
 from config import OUTPUTS_DIR
 
+```python
+# Configurar tema dark
+if PLOTLY_AVAILABLE:
+    import plotly.io as pio
+    pio.templates.default = "plotly_dark"
+```
 
 class MultiContractComparison:
     """
@@ -298,6 +304,16 @@ class MultiContractComparison:
             plot_bgcolor='white',
             paper_bgcolor='white'
         )
+
+        ```python
+        fig.update_layout(
+            # ... todo lo existente ...
+            plot_bgcolor='rgba(30, 30, 30, 0.5)',
+            paper_bgcolor='rgba(20, 20, 20, 0.85)',
+            font={'color': '#ffffff'},
+            margin={'l': 60, 'r': 40, 't': 100, 'b': 60}
+        )
+        ```
         
         return fig
     
@@ -363,6 +379,17 @@ class MultiContractComparison:
                 x=1
             )
         )
+        ```python
+        fig.update_layout(
+            # ... todo lo existente ...
+            plot_bgcolor='rgba(30, 30, 30, 0.5)',
+            paper_bgcolor='rgba(20, 20, 20, 0.85)',
+            font={'color': '#ffffff'},
+            xaxis={'gridcolor': 'rgba(255,255,255,0.1)'},
+            yaxis={'gridcolor': 'rgba(255,255,255,0.1)'},
+            margin={'l': 60, 'r': 40, 't': 80, 'b': 60}
+        )
+        ```
         
         return fig
     
