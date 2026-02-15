@@ -30,9 +30,9 @@ def formatear_dataframe(df):
     """Formatea nombres de columnas y centra datos"""
     df_display = df.copy()
     
-    # Renombrar columnas: quitar _ y capitalizar
+    # Renombrar columnas: quitar _ y capitalizar (convertir a string primero)
     df_display.columns = [
-        col.replace('_', ' ').title() 
+        str(col).replace('_', ' ').title() 
         for col in df_display.columns
     ]
     
