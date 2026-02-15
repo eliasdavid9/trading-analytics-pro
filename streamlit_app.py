@@ -27,8 +27,17 @@ st.set_page_config(
 
 # Función helper para formatear DataFrames
 def formatear_dataframe(df):
-    """Formatea nombres de columnas y centra datos"""
+    """Formatea nombres de columnas, centra datos y formatea fechas"""
     df_display = df.copy()
+    
+    # Convertir fechas en el índice si es DatetimeIndex
+    if isinstance(df_display.index, pd.DatetimeIndex):
+        df_display.index = df_display.index.strftime('%d-%m-%Y')
+    
+    # Convertir fechas en columnas
+    for col in df_display.columns:
+        if pd.api.types.is_datetime64_any_dtype(df_display[col]):
+            df_display[col] = df_display[col].dt.strftime('%d-%m-%Y')
     
     # Si las columnas son MultiIndex (tuplas), aplanarlas
     if isinstance(df_display.columns, pd.MultiIndex):
