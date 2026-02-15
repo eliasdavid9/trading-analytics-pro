@@ -20,7 +20,6 @@ except ImportError:
 sys.path.append(str(Path(__file__).parent.parent))
 from config import OUTPUTS_DIR
 
-python
 # Configurar tema dark
 if PLOTLY_AVAILABLE:
     import plotly.io as pio
@@ -304,7 +303,6 @@ class MultiContractComparison:
             paper_bgcolor='white'
         )
 
-        python
         fig.update_layout(
             # ... todo lo existente ...
             plot_bgcolor='rgba(30, 30, 30, 0.5)',
@@ -377,7 +375,7 @@ class MultiContractComparison:
                 x=1
             )
         )
-        python
+        
         fig.update_layout(
             # ... todo lo existente ...
             plot_bgcolor='rgba(30, 30, 30, 0.5)',
