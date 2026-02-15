@@ -30,14 +30,26 @@ def formatear_dataframe(df):
     """Formatea nombres de columnas, centra datos y formatea fechas"""
     df_display = df.copy()
     
-    # Convertir fechas en el índice si es DatetimeIndex
+    # Convertir fechas en el índice
     if isinstance(df_display.index, pd.DatetimeIndex):
         df_display.index = df_display.index.strftime('%d-%m-%Y')
+    elif df_display.index.dtype == 'object':  # ← NUEVO: Si es string
+        try:
+            df_display.index = pd.to_datetime(df_display.index).strftime('%d-%m-%Y')
+        except:
+            pass
     
     # Convertir fechas en columnas
     for col in df_display.columns:
         if pd.api.types.is_datetime64_any_dtype(df_display[col]):
             df_display[col] = df_display[col].dt.strftime('%d-%m-%Y')
+        elif df_display[col].dtype == 'object':  # ← NUEVO: Si es string
+            try:
+                # Intentar convertir si tiene formato de fecha
+                if df_display[col].astype(str).str.match(r'\d{4}-\d{2}-\d{2}').any():
+                    df_display[col] = pd.to_datetime(df_display[col]).dt.strftime('%d-%m-%Y')
+            except:
+                pass
     
     # Si las columnas son MultiIndex (tuplas), aplanarlas
     if isinstance(df_display.columns, pd.MultiIndex):
@@ -52,7 +64,7 @@ def formatear_dataframe(df):
             for col in df_display.columns
         ]
     
-    # Aplicar estilo: centrar todo (contenido Y headers)
+    # Aplicar estilo: centrar todo
     styled = df_display.style.set_properties(**{
         'text-align': 'center'
     }).set_table_styles([
@@ -721,7 +733,10 @@ def tab_clasificacion():
     st.markdown("### 📊 Análisis por Día de Semana")
     
     analisis_semana = classifier.analizar_por_dia_semana()
-    st.dataframe(formatear_dataframe(analisis_semana), use_container_width=True)
+    st.dataframe(
+        formatear_dataframe(analisis_semana).format(precision=2),
+        use_container_width=True
+    )
     
     # Rachas detectadas
     st.markdown("### 🔁 Rachas Detectadas (3+ días consecutivos)")
