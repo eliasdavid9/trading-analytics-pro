@@ -693,16 +693,16 @@ def tab_clasificacion():
             'Rango Diario': '{:.2f}',
             'Cambio Pct': '{:+.2f}%',
             'Volatilidad': '{:.2f}'
-        }).background_gradient(subset=['rango_diario'], cmap='RdYlGn'),
+        }).background_gradient(subset=['Rango Diario'], cmap='RdYlGn'),
         use_container_width=True,
         height=400
     )
     
-    # Análisis por día de semana
+     # Análisis por día de semana
     st.markdown("### 📊 Análisis por Día de Semana")
     
     analisis_semana = classifier.analizar_por_dia_semana()
-    st.dataframe(Analisis Semana), use_container_width=True)
+    st.dataframe(formatear_dataframe(analisis_semana), use_container_width=True)
     
     # Rachas detectadas
     st.markdown("### 🔁 Rachas Detectadas (3+ días consecutivos)")
@@ -710,7 +710,7 @@ def tab_clasificacion():
     rachas = classifier.detectar_rachas()
     
     if len(rachas) > 0:
-        st.dataframe(Rachas), use_container_width=True)
+        st.dataframe(formatear_dataframe(rachas), use_container_width=True)
     else:
         st.info("No se detectaron rachas significativas")
 
@@ -728,14 +728,14 @@ def tab_sesiones():
     st.markdown("### 📊 Distribución de Rangos por Sesión")
     
     dist = analytics.analizar_distribucion_sesiones()
-    st.dataframe(Dist), use_container_width=True)
+    st.dataframe(formatear_dataframe(dist), use_container_width=True)
     
     # Sesiones por tipo de día
     st.markdown("### 🎯 Sesiones por Tipo de Día")
     
     por_tipo = analytics.analizar_sesiones_por_tipo_dia()
     if por_tipo is not None:
-        st.dataframe(Por Tipo), use_container_width=True)
+        st.dataframe(formatear_dataframe(por_tipo), use_container_width=True)
     
     # Correlaciones
     st.markdown("### 🔗 Correlaciones entre Sesiones")
