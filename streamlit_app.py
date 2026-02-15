@@ -25,6 +25,24 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+# Función helper para formatear DataFrames
+def formatear_dataframe(df):
+    """Formatea nombres de columnas y centra datos"""
+    df_display = df.copy()
+    
+    # Renombrar columnas: quitar _ y capitalizar
+    df_display.columns = [
+        col.replace('_', ' ').title() 
+        for col in df_display.columns
+    ]
+    
+    # Aplicar estilo: centrar todo
+    return df_display.style.set_properties(**{
+        'text-align': 'center'
+    }).set_table_styles([
+        {'selector': 'th', 'props': [('text-align', 'center')]}
+    ])
+    
 # CSS personalizado
 def load_css():
     """Carga estilos CSS personalizados - Dark Premium Theme"""
@@ -642,14 +660,14 @@ def tab_overview():
         ['rango_diario', 'cambio_pct', 'direccion', 'volatilidad']
     ]
     
-    st.dataframe(
-        top5.style.format({
-            'rango_diario': '{:.2f}',
-            'cambio_pct': '{:+.2f}%',
-            'volatilidad': '{:.2f}'
-        }),
-        use_container_width=True
-    )
+   st.dataframe(
+      formatear_dataframe(top5).format({
+        'Rango Diario': '{:.2f}',
+        'Cambio Pct': '{:+.2f}%',
+        'Volatilidad': '{:.2f}'
+    }),
+    use_container_width=True
+)
 
 def tab_clasificacion():
     """Tab de clasificación de días"""
@@ -671,10 +689,10 @@ def tab_clasificacion():
     
     # Aplicar formato
     st.dataframe(
-        df_display.style.format({
-            'rango_diario': '{:.2f}',
-            'cambio_pct': '{:+.2f}%',
-            'volatilidad': '{:.2f}'
+        formatear_dataframe(df_display).format({
+            'Rango Diario': '{:.2f}',
+            'Cambio Pct': '{:+.2f}%',
+            'Volatilidad': '{:.2f}'
         }).background_gradient(subset=['rango_diario'], cmap='RdYlGn'),
         use_container_width=True,
         height=400
@@ -684,7 +702,7 @@ def tab_clasificacion():
     st.markdown("### 📊 Análisis por Día de Semana")
     
     analisis_semana = classifier.analizar_por_dia_semana()
-    st.dataframe(analisis_semana, use_container_width=True)
+    st.dataframe(Analisis Semana), use_container_width=True)
     
     # Rachas detectadas
     st.markdown("### 🔁 Rachas Detectadas (3+ días consecutivos)")
@@ -692,7 +710,7 @@ def tab_clasificacion():
     rachas = classifier.detectar_rachas()
     
     if len(rachas) > 0:
-        st.dataframe(rachas, use_container_width=True)
+        st.dataframe(Rachas), use_container_width=True)
     else:
         st.info("No se detectaron rachas significativas")
 
@@ -710,14 +728,14 @@ def tab_sesiones():
     st.markdown("### 📊 Distribución de Rangos por Sesión")
     
     dist = analytics.analizar_distribucion_sesiones()
-    st.dataframe(dist, use_container_width=True)
+    st.dataframe(Dist), use_container_width=True)
     
     # Sesiones por tipo de día
     st.markdown("### 🎯 Sesiones por Tipo de Día")
     
     por_tipo = analytics.analizar_sesiones_por_tipo_dia()
     if por_tipo is not None:
-        st.dataframe(por_tipo, use_container_width=True)
+        st.dataframe(Por Tipo), use_container_width=True)
     
     # Correlaciones
     st.markdown("### 🔗 Correlaciones entre Sesiones")
@@ -907,7 +925,7 @@ def tab_comparacion():
         ]
         
         st.dataframe(
-            display_df.style.format({
+            formatear_dataframe(display_df).format({
                 'Rango Prom.': '{:.1f}',
                 '% Fuertes': '{:.1f}%',
                 'Volatilidad': '{:.2f}',
