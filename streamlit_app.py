@@ -403,7 +403,7 @@ def init_session_state():
 def sidebar():
     """Renderiza el sidebar con controles"""
     with st.sidebar:
-        st.markdown("# 📊 Trading Analytics")
+        st.markdown("# Trading Analytics Pro")
         st.markdown("---")
         
         # Upload de archivo
@@ -990,7 +990,7 @@ def main():
     # Header principal
     st.markdown("""
     <div style='text-align: center; padding: 2rem 0;'>
-        <h1 style='font-size: 3em; margin: 0;'>📊 Trading Analytics Pro</h1>
+        <h1 style='font-size: 3em; margin: 0;'> Trading Analytics Pro</h1>
         <p style='font-size: 1.2em; color: #6b7280;'>Sistema profesional de análisis estadístico para futuros</p>
     </div>
     """, unsafe_allow_html=True)
