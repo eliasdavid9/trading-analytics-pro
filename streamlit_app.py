@@ -813,7 +813,6 @@ def tab_comparacion():
 
     col1, col2 = st.columns([2, 3])
     
-    with col1:
     uploaded_file_2 = st.file_uploader(
         "Segundo contrato",
         type=['txt'],
