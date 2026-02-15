@@ -27,100 +27,352 @@ st.set_page_config(
 
 # CSS personalizado
 def load_css():
-    """Carga estilos CSS personalizados"""
+    """Carga estilos CSS personalizados - Dark Premium Theme"""
     st.markdown("""
     <style>
-    /* Tema general */
+    /* ============================================
+       VARIABLES DE COLOR - DARK PREMIUM THEME
+       ============================================ */
+    :root {
+        --bg-dark: #0a0a0a;
+        --bg-secondary: #141414;
+        --bg-card: rgba(30, 30, 30, 0.6);
+        --accent-purple: #8b5cf6;
+        --accent-blue: #3b82f6;
+        --text-primary: #ffffff;
+        --text-secondary: #a1a1aa;
+        --border-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    /* ============================================
+       FONDO PRINCIPAL CON DEGRADADO
+       ============================================ */
     .main {
+        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+        background-attachment: fixed;
         padding: 2rem;
     }
     
-    /* Headers personalizados */
-    h1 {
-        color: #1f2937;
+    /* Efecto de grano sutil */
+    .main::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+        opacity: 0.3;
+        pointer-events: none;
+        z-index: 0;
+    }
+    
+    /* ============================================
+       TIPOGRAFÍA MODERNA
+       ============================================ */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    
+    * {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    
+    h1, h2, h3 {
+        color: var(--text-primary) !important;
         font-weight: 700;
-        margin-bottom: 1rem;
+        letter-spacing: -0.02em;
+    }
+    
+    h1 {
+        font-size: 3rem !important;
+        background: linear-gradient(135deg, #ffffff 0%, #a78bfa 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
     }
     
     h2 {
-        color: #374151;
-        font-weight: 600;
-        border-bottom: 2px solid #e5e7eb;
-        padding-bottom: 0.5rem;
-        margin-top: 2rem;
+        font-size: 2rem !important;
+        margin-top: 3rem !important;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid var(--border-color);
     }
     
-    h3 {
-        color: #4b5563;
-        font-weight: 500;
+    p, label, span {
+        color: var(--text-secondary) !important;
+        font-weight: 400;
+        line-height: 1.6;
     }
     
-    /* Cards de métricas */
+    /* ============================================
+       CARDS CON GLASSMORPHISM
+       ============================================ */
+    div[data-testid="stMetricValue"], 
     div[data-testid="metric-container"] {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border-radius: 10px;
-        padding: 1rem;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        background: var(--bg-card) !important;
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        padding: 1.5rem !important;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        transition: all 0.3s ease;
+    }
+    
+    div[data-testid="metric-container"]:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 48px rgba(139, 92, 246, 0.3);
+        border-color: var(--accent-purple);
     }
     
     div[data-testid="metric-container"] label {
-        color: white !important;
+        color: var(--text-secondary) !important;
+        font-size: 0.875rem;
         font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
     }
     
-    div[data-testid="metric-container"] div {
-        color: white !important;
+    div[data-testid="metric-container"] [data-testid="stMetricValue"] {
+        color: var(--text-primary) !important;
+        font-size: 2.5rem !important;
+        font-weight: 700;
     }
     
-    /* Botones */
+    /* ============================================
+       BOTONES PREMIUM
+       ============================================ */
     .stButton button {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border: none;
-        border-radius: 8px;
-        padding: 0.5rem 2rem;
-        font-weight: 600;
-        transition: all 0.3s;
+        background: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-blue) 100%) !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 12px !important;
+        padding: 0.75rem 2rem !important;
+        font-weight: 600 !important;
+        font-size: 1rem !important;
+        letter-spacing: 0.02em;
+        transition: all 0.3s ease !important;
+        box-shadow: 0 4px 16px rgba(139, 92, 246, 0.4);
     }
     
     .stButton button:hover {
         transform: translateY(-2px);
-        box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        box-shadow: 0 8px 24px rgba(139, 92, 246, 0.6);
     }
     
-    /* Upload area */
-    .uploadedFile {
-        background-color: #f9fafb;
-        border-radius: 8px;
-        padding: 1rem;
+    .stButton button:active {
+        transform: translateY(0);
     }
     
-    /* Tablas */
+    /* ============================================
+       SIDEBAR DARK
+       ============================================ */
+    section[data-testid="stSidebar"] {
+        background: var(--bg-secondary) !important;
+        border-right: 1px solid var(--border-color);
+    }
+    
+    section[data-testid="stSidebar"] > div {
+        background: transparent;
+    }
+    
+    /* ============================================
+       FILE UPLOADER
+       ============================================ */
+    div[data-testid="stFileUploader"] {
+        background: var(--bg-card);
+        backdrop-filter: blur(20px);
+        border: 2px dashed var(--border-color);
+        border-radius: 16px;
+        padding: 2rem;
+        transition: all 0.3s ease;
+    }
+    
+    div[data-testid="stFileUploader"]:hover {
+        border-color: var(--accent-purple);
+        background: rgba(139, 92, 246, 0.05);
+    }
+    
+    /* ============================================
+       TABS MODERNOS
+       ============================================ */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 0.5rem;
+        background: transparent;
+    }
+    
+    .stTabs [data-baseweb="tab"] {
+        background: var(--bg-card);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 0.75rem 1.5rem;
+        color: var(--text-secondary);
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .stTabs [data-baseweb="tab"]:hover {
+        background: rgba(139, 92, 246, 0.1);
+        border-color: var(--accent-purple);
+        color: var(--text-primary);
+    }
+    
+    .stTabs [aria-selected="true"] {
+        background: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-blue) 100%);
+        border-color: transparent;
+        color: white !important;
+    }
+    
+    /* ============================================
+       DATAFRAMES Y TABLAS
+       ============================================ */
     .dataframe {
-        border-radius: 8px;
+        background: var(--bg-card) !important;
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--border-color) !important;
+        border-radius: 12px !important;
         overflow: hidden;
     }
     
-    /* Success/Warning/Error boxes */
+    .dataframe thead tr {
+        background: rgba(139, 92, 246, 0.2) !important;
+    }
+    
+    .dataframe thead th {
+        color: var(--text-primary) !important;
+        font-weight: 700 !important;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 0.05em;
+        padding: 1rem !important;
+        border-bottom: 2px solid var(--accent-purple) !important;
+    }
+    
+    .dataframe tbody tr {
+        border-bottom: 1px solid var(--border-color) !important;
+        transition: all 0.2s ease;
+    }
+    
+    .dataframe tbody tr:hover {
+        background: rgba(139, 92, 246, 0.05) !important;
+    }
+    
+    .dataframe td {
+        color: var(--text-secondary) !important;
+        padding: 0.875rem 1rem !important;
+    }
+    
+    /* ============================================
+       ALERTS Y NOTIFICACIONES
+       ============================================ */
     .stSuccess, .stWarning, .stError, .stInfo {
-        border-radius: 8px;
+        background: var(--bg-card) !important;
+        backdrop-filter: blur(20px);
+        border-radius: 12px !important;
+        border-left: 4px solid;
+        padding: 1rem 1.5rem !important;
+    }
+    
+    .stSuccess {
+        border-left-color: #10b981;
+    }
+    
+    .stWarning {
+        border-left-color: #f59e0b;
+    }
+    
+    .stError {
+        border-left-color: #ef4444;
+    }
+    
+    .stInfo {
+        border-left-color: var(--accent-blue);
+    }
+    
+    /* ============================================
+       INPUTS Y SELECTORES
+       ============================================ */
+    input, textarea, select {
+        background: var(--bg-card) !important;
+        border: 1px solid var(--border-color) !important;
+        border-radius: 10px !important;
+        color: var(--text-primary) !important;
+        padding: 0.75rem 1rem !important;
+        transition: all 0.3s ease;
+    }
+    
+    input:focus, textarea:focus, select:focus {
+        border-color: var(--accent-purple) !important;
+        box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2) !important;
+    }
+    
+    /* ============================================
+       EXPANDERS
+       ============================================ */
+    .streamlit-expanderHeader {
+        background: var(--bg-card) !important;
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--border-color) !important;
+        border-radius: 12px !important;
+        color: var(--text-primary) !important;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .streamlit-expanderHeader:hover {
+        background: rgba(139, 92, 246, 0.1) !important;
+        border-color: var(--accent-purple) !important;
+    }
+    
+    /* ============================================
+       SCROLLBAR DARK
+       ============================================ */
+    ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background: var(--bg-secondary);
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: var(--accent-purple);
+        border-radius: 5px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--accent-blue);
+    }
+    
+    /* ============================================
+       ANIMACIONES SUAVES
+       ============================================ */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .main > div {
+        animation: fadeIn 0.6s ease-out;
+    }
+    
+    /* ============================================
+       PLOTLY CHARTS DARK
+       ============================================ */
+    .js-plotly-plot {
+        background: var(--bg-card) !important;
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
         padding: 1rem;
     }
     
-    /* Sidebar */
-    section[data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #f9fafb 0%, #ffffff 100%);
-    }
-    
-    /* Dark mode overrides */
-    @media (prefers-color-scheme: dark) {
-        .main {
-            background-color: #1f2937;
-        }
-        h1, h2, h3 {
-            color: #f9fafb;
-        }
-    }
     </style>
     """, unsafe_allow_html=True)
 
